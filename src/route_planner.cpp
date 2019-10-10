@@ -35,17 +35,21 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
     }
 }
 
-
-// TODO 5:
-//  Complete the NextNode method to sort the open list and return the next node.
-// Tips:
-// - Sort the open_list according to the sum of the h value and g value.
-// - Create a pointer to the node in the list with the lowest sum.
-// - Remove that node from the open_list.
-// - Return the pointer.
-
 RouteModel::Node *RoutePlanner::NextNode() {
 
+    // Sorting comparison solution found: https://knowledge.udacity.com/questions/44755
+    sort(open_list.begin(), open_list.end(), [](const auto &node1, const auto &node2) {
+        return node1->h_value + node1->g_value < node2->h_value + node2->g_value;
+    });
+
+    // Create a pointer to the node with the lowest f value
+    RouteModel::Node* lowestValue = open_list[0];
+
+    // Remove lowest node from open list
+    open_list.erase(open_list.begin());
+
+    // Return the pointer to the lowest value
+    return lowestValue;
 }
 
 
