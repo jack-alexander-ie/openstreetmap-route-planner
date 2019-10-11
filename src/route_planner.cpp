@@ -54,8 +54,6 @@ RouteModel::Node *RoutePlanner::NextNode() {
 
 std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node *current_node) {
 
-    std::cout << "Path Found 1 \n";
-
     // Create path_found vector
     distance = 0.0f;
     std::vector<RouteModel::Node> path_found;
@@ -82,7 +80,6 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     return path_found;
 }
 
-// TODO 7: Write the A* Search algorithm here.
 void RoutePlanner::AStarSearch() {
 
     // Add start node to the open list
