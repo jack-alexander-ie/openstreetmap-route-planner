@@ -53,6 +53,9 @@ RouteModel::Node *RoutePlanner::NextNode() {
 }
 
 std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node *current_node) {
+
+    std::cout << "Path Found 1 \n";
+
     // Create path_found vector
     distance = 0.0f;
     std::vector<RouteModel::Node> path_found;
@@ -76,12 +79,8 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
 
-    // TODO: Figure out why this isn't returning things properly
-    std::cout << "Returning vector of size: " << path_found.size() << "\n";
-
     return path_found;
 }
-
 
 // TODO 7: Write the A* Search algorithm here.
 void RoutePlanner::AStarSearch() {
@@ -97,15 +96,15 @@ void RoutePlanner::AStarSearch() {
         current_node = NextNode();
         current_node->visited = true;
 
-        // Add neighbors of current node to the open_list
-        AddNeighbors(current_node);
-
         // If goal reached, return constructed path
-        if (current_node == end_node)
+        if (current_node == end_node) {
             // Store final path in m_Model.path before method exits -> displayed on map title
             m_Model.path = ConstructFinalPath(current_node);
-            std::cout << "Returned vector size: " << m_Model.path.size() << "\n";
             return;
+        }
+
+        // Add neighbors of current node to the open_list
+        AddNeighbors(current_node);
 
     }
 }
