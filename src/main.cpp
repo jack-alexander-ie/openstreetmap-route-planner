@@ -57,8 +57,19 @@ int main(int argc, const char **argv)
     float end_x;
     float end_y;
 
-    std::cout << "Please enter integer values for the start (x, y) positions and end (x, y) positions: ";
-    std::cin >> start_x >> start_y >> end_x >> end_y;
+    std::cout << "Please enter integer values for the start (x, y) positions and end (x, y) positions: " << "\n";
+
+    std::cout << "Start X: ";
+    std::cin >> start_x;
+
+    std::cout << "Start Y: ";
+    std::cin >> start_y;
+
+    std::cout << "End X: ";
+    std::cin >> end_x;
+
+    std::cout << "End Y: ";
+    std::cin >> end_y;
 
     // Build Model.
     RouteModel model{osm_data};
