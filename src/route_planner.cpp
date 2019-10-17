@@ -27,11 +27,12 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
         node->g_value = current_node->g_value + node->distance(*current_node);
         node->h_value = CalculateHValue(node);
 
+        // Mark the node as visited
+        node->visited = true;
+
         // Add the node to the open list
         open_list.push_back(node);
 
-        // Mark the node as visited
-        node->visited = true;
     }
 }
 
@@ -65,6 +66,9 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
         // Get the distance from the node to its parent
         distance += node->distance(*current_node->parent);
 
+        std::cout << "Node -> Parent Distance: ****** " << node->distance(*current_node->parent) << "\n";
+        std::cout << "DISTANCE: ****** " << distance << "\n\n";
+
         // Push the node to the top of the vector
         path_found.push_back(*node);
 
@@ -75,7 +79,11 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     // Reverse vector to get correct path restructuring
     std::reverse(path_found.begin(), path_found.end());
 
+    std::cout << "DIST BEFORE MULTI ****** " << distance <<  "\n";
+
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
+
+    std::cout << "DIST AFTER MULTI ****** " << distance <<  "\n";
 
     return path_found;
 }
@@ -89,11 +97,11 @@ void RoutePlanner::AStarSearch() {
 
     while (!open_list.empty()) {
 
-        // NextNode: sort the open_list and return the next node with lowest f
+        // sort the open_list and return node with lowest f
         current_node = NextNode();
         current_node->visited = true;
 
-        // If goal reached, return constructed path
+        // If goal reached, return reconstructed path
         if (current_node == end_node) {
             // Store final path in m_Model.path before method exits -> displayed on map title
             m_Model.path = ConstructFinalPath(current_node);
