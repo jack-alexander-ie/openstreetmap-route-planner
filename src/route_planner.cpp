@@ -64,10 +64,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     while (node) {
 
         // Get the distance from the node to its parent
-        distance += node->distance(*current_node->parent);
-
-        std::cout << "Node -> Parent Distance: ****** " << node->distance(*current_node->parent) << "\n";
-        std::cout << "DISTANCE: ****** " << distance << "\n\n";
+        if (node->parent) distance += node->distance(*node->parent);
 
         // Push the node to the top of the vector
         path_found.push_back(*node);
@@ -79,11 +76,7 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     // Reverse vector to get correct path restructuring
     std::reverse(path_found.begin(), path_found.end());
 
-    std::cout << "DIST BEFORE MULTI ****** " << distance <<  "\n";
-
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
-
-    std::cout << "DIST AFTER MULTI ****** " << distance <<  "\n";
 
     return path_found;
 }
